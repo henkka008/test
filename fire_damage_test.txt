@@ -1,22 +1,20 @@
 @echo off
-:: lisaa nykyinen paivamaara tiedostoon X versio 3
+chcp 1252 >nul
+
 :: Polku tulostiedostoon
-set "file=C:\Users\htb-student\Desktop\tiedosto.txt"
+set "file=PATH_TO_FILE"
 
-:: Hae pelkkä päivämäärä ilman viikonpäivää (esim. 05/08/2025)
-for /f "tokens=2 delims= " %%a in ("%date%") do set "cleanDate=%%a"
-
-:: Erota päivä, kuukausi ja vuosi muotoiluun
-for /f "tokens=1-3 delims=/" %%a in ("%cleanDate%") do (
-    set "month=%%a"
-    set "day=%%b"
+:: Hae päivämäärä
+for /f "tokens=1-3 delims=." %%a in ("%date%") do (
+    set "day=%%a"
+    set "month=%%b"
     set "year=%%c"
 )
 
-:: Hae viikonpäivän numero (0=sunnuntai, 1=maanantai, ...)
+:: Hae viikonpäivän numero
 for /f %%A in ('wmic path Win32_LocalTime get DayOfWeek /value ^| find "="') do set %%A
 
-:: Muunna viikonpäivä suomeksi
+:: Muuta numero sanaksi suomeksi
 set "weekday="
 if %DayOfWeek%==1 set weekday=MAANANTAI
 if %DayOfWeek%==2 set weekday=TIISTAI
@@ -26,12 +24,12 @@ if %DayOfWeek%==5 set weekday=PERJANTAI
 if %DayOfWeek%==6 set weekday=LAUANTAI
 if %DayOfWeek%==0 set weekday=SUNNUNTAI
 
-:: Muodosta lopullinen päivämäärärivi
+:: Muodosta päivämäärärivi ja poista kaksi viimeistä kirjainta joka on 3 viimeisin rivi
 set "formattedDate=%weekday% %day%.%month%.%year%"
 
-:: Lisää kaksi rivinvaihtoa ja päivämäärä tiedostoon
+:: Lisää tiedostoon
 (
   echo.
-  echo %formattedDate%
+  echo %formattedDate:~0,-2%
   echo.
 ) >> "%file%"
