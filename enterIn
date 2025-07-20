@@ -1,0 +1,58 @@
+#!/usr/bin/env python3
+"""
+CLI tool: enterIn
+Usage: enterIn <entry_price>
+
+Prints:
+  - your entry price
+  - a 1% stop‑loss (risk loss sell point)
+  - target prices for 1%, 2%, and 3% profit
+
+Example:
+  $ enterIn 154.31
+  Enter: 154.31
+  Risk loss sell point: 152.7669
+  Risk1:    155.85 = 1% profit
+  Risk2:    157.39 = 2% profit
+  Risk3:    158.94 = 3% profit
+"""
+import sys
+
+PRECISION_STOP = 4  # decimal places for stop‑loss
+PRECISION_TARGET = 4  # decimal places for targets
+RISK_PERCENT = 1  # percent below entry for stop‑loss
+TARGET_PERCENTS = [1, 2, 3]  # profit targets in percent
+
+
+def fmt(value: float, decimals: int) -> str:
+    """Format float with given decimals, strip unnecessary trailing zeros."""
+    formatted = f"{value:.{decimals}f}"
+    return formatted.rstrip("0").rstrip(".") if "." in formatted else formatted
+
+
+def main():
+    if len(sys.argv) != 2:
+        print("Usage: enterIn <entry_price>", file=sys.stderr)
+        sys.exit(1)
+
+    # Parse entry price
+    try:
+        entry_price = float(sys.argv[1].replace(',', '.'))
+    except ValueError:
+        print("Error: entry_price must be a number.", file=sys.stderr)
+        sys.exit(1)
+
+    # Calculate stop‑loss and targets
+    risk_loss_price = entry_price * (1 - RISK_PERCENT / 100)
+    targets = [(p, entry_price * (1 + p / 100)) for p in TARGET_PERCENTS]
+
+    # Print results
+    print(f"Enter: {fmt(entry_price, 2)}")
+    print(f"Risk loss sell point: {fmt(risk_loss_price, PRECISION_STOP)}")
+    for i, (pct, price) in enumerate(targets, start=1):
+        label = f"Risk{'' if pct == 1 else pct}:" if pct < 10 else f"Risk{pct}:"
+        print(f"{label:<8} {fmt(price, PRECISION_TARGET):>8} = {pct}% profit")
+
+
+if __name__ == "__main__":
+    main()
